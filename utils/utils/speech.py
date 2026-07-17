@@ -1,39 +1,20 @@
-# ==========================================
-# speech.py
-# Speech To Text using Whisper AI
-# ==========================================
-
 import whisper
-
+import tempfile
+import os
 
 # Load Whisper model
-# tiny = faster
-# base = better accuracy
-# small/medium = higher accuracy
-
 model = whisper.load_model("base")
 
-
-
-def speech_to_text(audio_path):
-
+def speech_to_text(audio_file):
     """
-    Convert audio into text
-
-    Input:
-        audio_path -> wav/mp3 audio file
-
-    Output:
-        transcript text
+    Converts speech in an audio file to text.
     """
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp:
+        temp.write(audio_file.read())
+        temp_path = temp.name
 
+    result = model.transcribe(temp_path)
 
-    result = model.transcribe(
-        audio_path
-    )
+    os.remove(temp_path)
 
-
-    text = result["text"]
-
-
-    return text
+    return result["text"]
