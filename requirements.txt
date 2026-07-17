@@ -1,2 +1,9 @@
 streamlit
 moviepy<2.0.0
+openai-whisper
+torch
+deep-translator
+gtts
+opencv-python-headless
+pillow
+
